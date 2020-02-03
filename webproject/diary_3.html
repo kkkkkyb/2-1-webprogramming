@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+                   
+        <style>
+            @import url(//fonts.googleapis.com/earlyaccess/kopubbatang.css);
+            body {
+                font-family: 'KoPub Batang', serif;
+            }
+            
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                margin: 0;
+            }
+            ul {
+                margin: 0;
+                padding: 0;
+                background-color: black;
+                position: absolute;
+                top: 0;
+                width: 100%;
+                text-align: center;
+            }
+            li {
+                list-style-type: none;
+                display: inline-block;
+            }
+            li a{
+                text-decoration: unset;
+                font-size: 15pt;
+                color: rgb(255, 255, 255);
+                font-weight: bold;
+                display: block;
+                padding: 15px;
+            }
+            li a:hover {
+                background-color: rgb(101, 10, 185);
+                color: rgb(224, 206, 235);
+            }
+            li a:active {
+                background-color: rgb(87, 6, 163);
+                color: rgb(194, 171, 207);
+            }
+            .text_title {
+                font-size: 45pt;
+                text-align: center;
+                margin: 30px;
+                color: rgb(64, 0, 104);
+                padding: 50px;
+            }
+            hr {
+                width: 97%;
+                border-color: rgb(104, 104, 104);
+                border-bottom: none;
+            }
+            .bg_box {
+                background-color: rgba(241, 241, 241, 0.445);
+                padding: 10px;
+                float: left;
+                width: 65%;
+                box-shadow: 3px 3px 3px rgb(168, 168, 168);
+                margin-left: 20px;
+                position: relative;
+                top: 20px;
+            }
+            .content {
+                background-color: rgba(255, 255, 255, 0.979);
+                display: block;
+                padding: 10px;
+                margin: auto;
+                width: 90%;
+                box-shadow: 1px 1px 2px 0px gray;
+            }
+            .content_title {
+                font-weight: bold;
+            }
+            .profile {
+                background-color: rgba(241, 241, 241, 0.644);
+                float: right;
+                width: 25%;
+                padding: 10px;
+                border-radius: 30px;
+                margin-right: 20px;
+            }
+            .profile_image {
+                border-radius: 100px;
+                display: block;
+                margin: auto;
+                margin-top: 10px;
+                border: 5px solid rgba(255, 255, 255, 0.555);
+            }
+            @media screen and (max-width: 800px) {
+                .bg_box, .profile {
+                    width: 100%;
+                    padding: 30px;
+                    margin: 0;
+                }
+            }
+        </style>
+
+
+    </head>
+
+    <body>
+        <h2 class="text_title">My Blog</h2>
+
+
+        <ul>
+            <li><a href="index.html">home</a></li>
+            <li><a href="travel.html">travel</a></li>
+            <li><a href="movie.html">movie</a></li>
+            <li><a href="diary.html">diary</a></li>
+        </ul>
+
+        <hr>
+
+        <div class="bg_box">
+            <div class="content">
+                <a class="content_title">June 20th</a><br>
+                Anne expresses why she wants to keep a diary: she’s lonely. She does have friends (and apparently lots of guys who are in love with her) but no one she can share her secrets with.
+                "Kitty"—the name she christens her diary—will be just that friend.
+                Anne explains a bit of her family and her life, so we get some good background.
+                Anne has a father, mother, and older sister named Margot.
+                They all lived in Frankfurt, Germany until Anne was four. The whole family eventually immigrated to Holland because they are Jews and things were getting very bad for Jews in Germany.
+                Anne describes how family members still living in Germany have also fled.
+                Anne says that life has been hard since 1940 when the Germans moved into Holland. There are lots of laws restricting the freedom of Jews: they have to wear a yellow star, can’t drive cars or bikes, can only go shopping during certain hours of the day, have a nighttime curfew, can’t go to movies, can’t use tennis courts, and so many more things.
+                Anne formed a club of girls that like to play ping-pong, so she describes this a bit.
+                Anne describes how many boyfriends she has and how they express their ardor by wanting to ask "Father’s permission."
+            </div>
+        </div>
+
+        <div class="profile">
+            <img class="profile_image" src="img/KakaoTalk_20180616_171354122.jpg" alt="profile_image" width="150" height="150"><br>
+            <b>김유빈</b><br><br>
+            201735933 컴퓨터공학과<br>
+            웹 프로그래밍 REPORT#2<br><hr>
+            <p id="date">오늘날짜</p><hr>
+            <div>
+                <div id="weatherinfo"></div>
+                <div id="tempinfo"></div>
+            </div>
+        </div>
+            
+        <script>
+            /*오늘날짜*/
+            var x = new Date();
+            var months = ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"];
+            var days = ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"];
+            document.getElementById("date").innerHTML = months[x.getMonth()] + " " + x.getDate() + "일 " + days[x.getDay()];
+                        
+            /*날씨*/
+            /*날씨정보 : https://www.wunderground.com/*/
+            /*코드 : https://blog.naver.com/r011ing_s70n3/220865455111*/
+            $(document).ready(function(){
+            $.ajax({
+                url : "http://api.wunderground.com/api/b64679ad82a6d93d/geolookup/conditions/q/KR/Seoul.json",
+                dataType : "jsonp",
+                success : function(parsed_json){
+                    var weather = "";
+                    var temperature = "temperatur : " + parsed_json['current_observation']['temp_c']+"℃";
+                                    
+                    weather = "<img src='"+ parsed_json['current_observation']['icon_url'] +"'/><br>";
+                    if(parsed_json['current_observation']['weather']=="")
+                        weather +="날씨정보가 없습니다";
+                    else
+                        weather += "weather : " + parsed_json['current_observation']['weather'];
+                    $("#weatherinfo").append(weather);
+                    $("#tempinfo").append(temperature);
+                }
+                });
+            });
+        </script>
+    
+            
+    </body>
+</html>
